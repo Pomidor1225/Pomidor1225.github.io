@@ -196,32 +196,35 @@
 <body>
 
 <div class="container" id="main">
-    <div class="card" onclick="openProduct('hurts')">
-        <div class="image-box">
-            <img src="hurts_1.jpg">
-        </div>
-        <div class="title-row">
-  <div class="title" id="productTitle">HURTS</div>
 
-  <button class="buy-btn" onclick="buyNow()">
-    Купить
-  </button>
-</div>
-
-    <div class="card" onclick="openProduct('tennis')">
-        <div class="image-box">
-            <img src="tennis_1.jpg">
-        </div>
-        <div class="title">TENNIS</div>
+  <div class="card" onclick="openProduct('hurts')">
+    <div class="image-box">
+      <img src="hurts_1.jpg">
     </div>
+    <div class="title">HURTS</div>
+  </div>
+
+  <div class="card" onclick="openProduct('tennis')">
+    <div class="image-box">
+      <img src="tennis_1.jpg">
+    </div>
+    <div class="title">TENNIS</div>
+  </div>
+
 </div>
 
 <div class="product" id="product"><div class="gallery" id="gallery"></div>
     <div class="dots" id="dots"></div>
 
-    <div class="info-box">
-        <div class="info-title" id="productTitle"></div>
-    </div>
+    <div class="title-row">
+  <div class="info-box" style="flex:1; margin:0;">
+    <div class="info-title" id="productTitle"></div>
+  </div>
+
+  <button class="buy-btn" onclick="buyNow(event)">
+    Купить
+  </button>
+</div>
 
     <div class="info-box">
         <div class="info-desc">Описание товара</div>
@@ -324,6 +327,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
