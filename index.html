@@ -226,9 +226,6 @@ function openProduct(key) {
     document.getElementById("main").style.display = "none";
     document.getElementById("product").style.display = "block";
 
-    tg.BackButton.show();
-    tg.BackButton.onClick(goBack);
-   
     const gallery = document.getElementById("gallery");
     const dots = document.getElementById("dots");
 
@@ -248,7 +245,7 @@ function openProduct(key) {
 
     document.getElementById("productTitle").innerText = products[key].title;
 
-    gallery.addEventListener("scroll", () => {
+    gallery.onscroll = () => {
         const index = Math.floor(
             (gallery.scrollLeft + gallery.clientWidth / 2) / gallery.clientWidth
         );
@@ -256,26 +253,25 @@ function openProduct(key) {
         [...dots.children].forEach((d, i) => {
             d.classList.toggle("active", i === index);
         });
-    });
+    };
+
     // ✅ показываем кнопку "Назад" сверху в Telegram
-  if (tg) {
-    tg.BackButton.show();
-    tg.BackButton.offClick(goBack); // чтобы не было двойных кликов
-    tg.BackButton.onClick(goBack);
-  }
+    if (tg) {
+        tg.BackButton.show();
+        tg.BackButton.offClick(goBack);
+        tg.BackButton.onClick(goBack);
+    }
 }
 
 function goBack() {
     document.getElementById("product").style.display = "none";
     document.getElementById("main").style.display = "block";
 
-    tg.BackButton.hide();
-
     // ✅ убираем кнопку "Назад"
-  if (tg) {
-    tg.BackButton.hide();
-    tg.BackButton.offClick(goBack);
-  }
+    if (tg) {
+        tg.BackButton.hide();
+        tg.BackButton.offClick(goBack);
+    }
 }
     
 </script>
@@ -283,6 +279,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
