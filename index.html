@@ -320,7 +320,9 @@ function goBack() {
     }
 }
 
-    function buyNow(){
+    function buyNow(e){
+        if (e) e.stopPropagation();
+        
   const url = "https://t.me/Manager_Glitch";
 
   if (tg) {
@@ -335,6 +337,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
