@@ -201,7 +201,26 @@
 .buy-btn:active{
   transform:scale(0.98);
 }
-    
+
+        .title-row{
+  display:flex;
+  gap:12px;
+  width:100%;
+  align-items:stretch;
+}
+
+/* ✅ НАЗВАНИЕ — КОРОЧЕ */
+.title-row .info-box{
+  flex: 0.75;
+}
+
+/* ✅ КНОПКА “Купить” — ДЛИННЕЕ */
+.title-row .buy-btn{
+  flex: 1.25;
+  width: auto;
+  margin: 0;
+}
+        
     </style>
 </head>
 
@@ -341,6 +360,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
