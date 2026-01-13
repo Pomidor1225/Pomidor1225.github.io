@@ -143,6 +143,7 @@
         .info-title {
             font-size: 18px;
             font-weight: bold;
+            line-height: 1;
         }
 
         .info-desc {
@@ -168,14 +169,15 @@
   width:100%;
 }
 
-.title-row .title{
-  height:54px;
+.title-row .info-box{
+  flex: 1;
+  margin: 0;
+  height: 54px;
   display:flex;
   align-items:center;
-  flex:1;
-  margin:0;
+  padding: 0 18px;   /* ✅ делаем как у кнопки */
 }
-
+        
 .buy-btn{
   min-width:130px;
   text-align:center;
@@ -339,6 +341,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
