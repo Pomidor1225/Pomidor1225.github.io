@@ -162,78 +162,50 @@
             cursor: pointer;
         }
         
-        .title-row{
-  margin-bottom: 16px;
-  display:flex;
-  gap:12px;
-  align-items:stretch;
-  width:100%;
-}
-
-.title-row .info-box{
-  flex: 1;
-  margin: 0;
-  height: 54px;
-  display:flex;
-  align-items:center;
-  padding: 0 18px;   /* ✅ делаем как у кнопки */
-}
-        
-.buy-btn{
-  min-width:130px;
-  text-align:center;
-  height:54px;
-  margin:0;
-  padding:0 22px;
-  border:none;
-  border-radius:18px;
-  background:#3a3a3a;
-  color:#fff;
-  font-weight:800;
-  font-size:18px;
-  cursor:pointer;
-  white-space:nowrap;
-
-  width:auto;
-  margin-top:0;
-  flex:0 0 auto;
-}
-
-.buy-btn:active{
-  transform:scale(0.98);
-}
-
-        .title-row{
-  display:flex;
-  gap:12px;
-  width:100%;
-  align-items:stretch;
-}
-
-/* ✅ НАЗВАНИЕ — КОРОЧЕ */
-.title-row .info-box{
-  flex: 0.75;
-}
-
-/* ✅ КНОПКА “Купить” — ДЛИННЕЕ */
-.title-row .buy-btn{
-  flex: 1.25;
-  width: auto;
-  margin: 0;
-}
-
-        .info-desc{
-  margin-top: 20px;
-}
-
-
-        .title-row + .info-box{
-  margin-top: 14px;
-}
-
-        /* ✅ ЗАЗОР между "название+купить" и описанием */
+        /* ✅ Строка "Название + Купить" */
 #product .title-row{
-  margin-bottom: 16px !important;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  align-items: stretch;
+  margin-bottom: 16px; /* ✅ зазор до описания */
+}
+
+/* ✅ Название: короче */
+#product .title-row .title-box{
+  flex: 0.8;
+  background: #2b2b2b;
+  border-radius: 18px;
+  height: 54px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* ✅ Кнопка: длиннее */
+#product .title-row .buy-btn{
+  flex: 1.2;
+  height: 54px;
+  border: none;
+  border-radius: 18px;
+  background: #3a3a3a;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0 18px;
+  white-space: nowrap;
+}
+
+/* ✅ чтобы общие стили button не ломали buy-btn */
+#product .title-row .buy-btn{
+  width: auto;
+}
+
+#product .title-row .buy-btn:active{
+  transform: scale(0.98);
 }
         
     </style>
@@ -375,6 +347,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
