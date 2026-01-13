@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Telegram Mini App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <style>
         * {
             box-sizing: border-box;
@@ -93,13 +94,14 @@
         }
 
         .gallery {
+            width: 100%;
+            height: calc(100vw - 32px);  /* квадрат на телефоне */
+            max-height: 390px;           /* ограничение для ПК */
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 16px;
-            aspect-ratio: 1 / 1;
-            max-height: 390px;
-        }
+        }   
 
         .gallery::-webkit-scrollbar {
             display: none;
@@ -213,9 +215,12 @@
         }
     };
 
-   const tg = window.Telegram.WebApp;
-   tg.ready();
+   const tg = window.Telegram?.WebApp;
 
+   if (tg) {
+     tg.ready();
+     tg.expand();
+   }
 
 function openProduct(key) {
     document.getElementById("main").style.display = "none";
@@ -223,7 +228,7 @@ function openProduct(key) {
 
     tg.BackButton.show();
     tg.BackButton.onClick(goBack);
-
+   
     const gallery = document.getElementById("gallery");
     const dots = document.getElementById("dots");
 
@@ -252,6 +257,12 @@ function openProduct(key) {
             d.classList.toggle("active", i === index);
         });
     });
+    // ✅ показываем кнопку "Назад" сверху в Telegram
+  if (tg) {
+    tg.BackButton.show();
+    tg.BackButton.offClick(goBack); // чтобы не было двойных кликов
+    tg.BackButton.onClick(goBack);
+  }
 }
 
 function goBack() {
@@ -259,6 +270,12 @@ function goBack() {
     document.getElementById("main").style.display = "block";
 
     tg.BackButton.hide();
+
+    // ✅ убираем кнопку "Назад"
+  if (tg) {
+    tg.BackButton.hide();
+    tg.BackButton.offClick(goBack);
+  }
 }
     
 </script>
@@ -266,6 +283,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
