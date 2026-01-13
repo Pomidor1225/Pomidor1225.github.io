@@ -189,8 +189,6 @@
     <div class="info-box">
         <div class="info-desc">Описание товара</div>
     </div>
-
-    <button onclick="goBack()">Назад</button>
 </div>
 
 <script>
@@ -215,45 +213,58 @@
         }
     };
 
-    function openProduct(key) {
-        document.getElementById("main").style.display = "none";
-        document.getElementById("product").style.display = "block";
+   const tg = window.Telegram.WebApp;
 
-        const gallery = document.getElementById("gallery");
-        const dots = document.getElementById("dots");
+function openProduct(key) {
+    document.getElementById("main").style.display = "none";
+    document.getElementById("product").style.display = "block";
 
-        gallery.innerHTML = "";
-        dots.innerHTML = "";
+    tg.BackButton.show();
+    tg.BackButton.onClick(goBack);
 
-        products[key].images.forEach((src, i) => {
-            const img = document.createElement("img");
-            img.src = src;
-            gallery.appendChild(img);
+    const gallery = document.getElementById("gallery");
+    const dots = document.getElementById("dots");
 
-            const dot = document.createElement("div");
-            dot.className = "dot" + (i === 0 ? " active" : "");
-            dots.appendChild(dot);
+    gallery.innerHTML = "";
+    dots.innerHTML = "";
+    gallery.scrollLeft = 0;
+
+    products[key].images.forEach((src, i) => {
+        const img = document.createElement("img");
+        img.src = src;
+        gallery.appendChild(img);
+
+        const dot = document.createElement("div");
+        dot.className = "dot" + (i === 0 ? " active" : "");
+        dots.appendChild(dot);
+    });
+
+    document.getElementById("productTitle").innerText = products[key].title;
+
+    gallery.addEventListener("scroll", () => {
+        const index = Math.floor(
+            (gallery.scrollLeft + gallery.clientWidth / 2) / gallery.clientWidth
+        );
+
+        [...dots.children].forEach((d, i) => {
+            d.classList.toggle("active", i === index);
         });
+    });
+}
 
-        document.getElementById("productTitle").innerText = products[key].title;
+function goBack() {
+    document.getElementById("product").style.display = "none";
+    document.getElementById("main").style.display = "block";
 
-        gallery.onscroll = () => {
-            const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-            [...dots.children].forEach((d, i) => {
-                d.classList.toggle("active", i === index);
-            });
-        };
-    }
-
-    function goBack() {
-        document.getElementById("product").style.display = "none";
-        document.getElementById("main").style.display = "block";
-    }
+    tg.BackButton.hide();
+}
+    
 </script>
 
 </body>
 
 </html>
+
 
 
 
