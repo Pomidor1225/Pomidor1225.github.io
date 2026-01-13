@@ -207,6 +207,10 @@
 #product .title-row .buy-btn:active{
   transform: scale(0.98);
 }
+
+        #productDesc{
+  white-space: pre-line;
+}
         
     </style>
 </head>
@@ -245,7 +249,7 @@
 </div>
 
     <div class="info-box">
-        <div class="info-desc">Описание товара</div>
+        <div class="info-desc" id="productDesc"></div>
     </div>
 </div>
 
@@ -253,6 +257,11 @@
     const products = {
         hurts: {
             title: "HURTS",
+            description: "HEARTS Bracelet🧊\n
+Этот браслет не просто аксессуар, а завершающий штрих🗡️.\n Сияние которое точно заметят.\n
+SIZE: 18cm and 20cm📐\n
+Price: 65 Byn🇧🇾/ 22 usdt🇺🇸\n
+Чтобы приобрести, нажми кнопку КУПИТЬ🔝",
             images: [
                 "hurts_1.jpg",
                 "hurts_2.jpg",
@@ -263,6 +272,11 @@
         },
         tennis: {
             title: "TENNIS",
+            description: "TENNIS Bracelet💎\n
+Флекс не в лого, а в деталях. ⚔️ Классика, взорвавшая тикток.\n Заяви о своем стиле без слов. Холодное сияние браслета. 🧊\n
+SIZE: 19cm and 20cm📐\n
+Price: 55 Byn🇧🇾/ 18 usdt🇺🇸\n
+Чтобы приобрести, нажми кнопку КУПИТЬ🔝",\n
             images: [
                 "tennis_1.jpg",
                 "tennis_2.jpg",
@@ -300,6 +314,7 @@ function openProduct(key) {
     });
 
     document.getElementById("productTitle").innerText = products[key].title;
+    document.getElementById("productDesc").innerText = products[key].description;
 
     gallery.onscroll = () => {
         const index = Math.floor(
@@ -347,6 +362,7 @@ function goBack() {
 </body>
 
 </html>
+
 
 
 
