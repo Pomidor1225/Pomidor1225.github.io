@@ -19,22 +19,35 @@
             overflow-x: hidden;
         }
 
-       body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(20px 20px at 12% 18%, white, transparent),
-                radial-gradient(10px 10px at 78% 32%, white, transparent),
-                radial-gradient(30px 30px at 45% 67%, white, transparent),
-                radial-gradient(15px 15px at 88% 82%, white, transparent),
-                radial-gradient(8px 8px at 22% 74%, white, transparent),
-                radial-gradient(40px 40px at 65% 15%, white, transparent),
-                radial-gradient(10px 10px at 5% 45%, white, transparent),
-                radial-gradient(25px 25px at 92% 55%, white, transparent);
-            opacity: 0.6;
-            z-index: -1;
-       }
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                opacity: 0.75;
+
+                background-image:
+                    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M40 4 L46 34 L76 40 L46 46 L40 76 L34 46 L4 40 L34 34 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='55' height='55' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M40 6 L45 34 L74 40 L45 46 L40 74 L35 46 L6 40 L35 34 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M40 10 L44 34 L70 40 L44 46 L40 70 L36 46 L10 40 L36 34 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+                background-repeat: no-repeat, no-repeat, no-repeat;
+
+                /* расположение как на твоём фото (по краям экрана) */
+                background-position:
+                    6% 18%,
+                    94% 34%,
+                    8% 78%;
+
+                /* размеры звёзд */
+                background-size:
+                    70px 70px,
+                    48px 48px,
+                    30px 30px;
+
+                filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+            }    
 
         .container {
             padding: 16px;
@@ -241,4 +254,5 @@
 </body>
 
 </html>
+
 
