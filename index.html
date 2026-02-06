@@ -5,29 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{background:#000}
-
+html,body{margin:0;width:100%;height:100%}
+body{overflow:hidden;background:#000}
 /* ЭКРАНЫ */
-.screen{
-  position:absolute;
-  inset:0;
-  display:none;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
+.screen{position:absolute;inset:0;display:none}
 .screen.active{display:block}
-
 /* ФОНЫ */
-#home{
-  background-image:url("https://pomidor1225.github.io/background.jpg");
-}
-
-#bracelet{
-  background-color:#000;
-}
-
+#home{background:url("background.jpg") center/cover no-repeat #000}
+#bracelet{background:center/cover no-repeat #000}
 #delivery{
   background:linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color:#fff;
@@ -35,13 +20,11 @@ body{background:#000}
   overflow-y:auto;
   padding:20px;
 }
-
 #delivery.active{
   display:flex;
   align-items:center;
   justify-content:center;
 }
-
 #delivery-text{
   background:rgba(0,0,0,0.7);
   padding:30px 25px;
@@ -50,104 +33,83 @@ body{background:#000}
   text-align:left;
   line-height:1.6;
 }
-
 #delivery-text h3{
   font-size:22px;
   margin:0 0 20px 0;
   text-align:center;
   font-weight:bold;
 }
-
 #delivery-text p{
   font-size:16px;
   margin:15px 0;
 }
-
 #delivery-text strong{
   font-size:18px;
   display:block;
   margin-top:20px;
   margin-bottom:8px;
 }
-
 /* ПРОЗРАЧНЫЕ ЗОНЫ */
-.zone{
-  position:absolute;
-  z-index:20;
-  cursor:pointer;
-}
+.zone{position:absolute;z-index:20;cursor:pointer}
 .zone:active{opacity:0.7}
-
 /* ГЛАВНЫЙ */
 #h-hearts{left:5%;top:52%;width:42%;height:10%}
 #h-tennis{right:5%;top:52%;width:42%;height:10%}
 #h-delivery{
-  left:50%;
-  transform:translateX(-50%);
+  left:50%;transform:translateX(-50%);
   bottom:28%;
   width:65%;
   height:8%;
 }
-
 /* БРАСЛЕТ */
 #b-back{top:3%;left:3%;width:14%;height:8%}
 #b-buy{
-  left:50%;
-  transform:translateX(-50%);
+  left:50%;transform:translateX(-50%);
   bottom:28%;
   width:70%;
   height:8%;
 }
 #b-delivery{
-  left:50%;
-  transform:translateX(-50%);
+  left:50%;transform:translateX(-50%);
   bottom:17%;
   width:70%;
   height:8%;
 }
-
 /* ДОСТАВКА */
 #d-back{top:3%;left:3%;width:14%;height:8%}
-
 /* КАРУСЕЛЬ */
 #carousel{
   position:absolute;
   top:13%;
-  left:50%;
-  transform:translateX(-50%);
-  width:80%;
-  max-width:400px;
-  height:30%;
+  left:15%;
+  width:70%;
+  height:25%;
   overflow:hidden;
   border-radius:10px;
-  background:#fff;
+  touch-action:pan-y pinch-zoom;
 }
-
 #carousel-track{
   display:flex;
   height:100%;
   transition:transform 0.3s ease;
 }
-
 #carousel-track img{
   width:100%;
   height:100%;
-  object-fit:contain;
+  object-fit:cover;
   object-position:center;
+  transform:scale(0.85);
   flex-shrink:0;
-  background:#fff;
 }
-
 .carousel-dots{
   position:absolute;
-  top:45%;
+  top:39%;
   left:50%;
   transform:translateX(-50%);
   display:flex;
   gap:8px;
   z-index:30;
 }
-
 .dot{
   width:10px;
   height:10px;
@@ -156,20 +118,17 @@ body{background:#000}
   cursor:pointer;
   border:1px solid rgba(255,255,255,0.3);
 }
-
 .dot.active{
   background:rgba(255,255,255,1);
 }
 </style>
 </head>
 <body>
-
 <div class="screen active" id="home">
   <div class="zone" id="h-hearts"></div>
   <div class="zone" id="h-tennis"></div>
   <div class="zone" id="h-delivery"></div>
 </div>
-
 <div class="screen" id="bracelet">
   <div id="carousel">
     <div id="carousel-track"></div>
@@ -179,7 +138,6 @@ body{background:#000}
   <div class="zone" id="b-buy"></div>
   <div class="zone" id="b-delivery"></div>
 </div>
-
 <div class="screen" id="delivery">
   <div class="zone" id="d-back"></div>
   <div id="delivery-text">
@@ -196,142 +154,138 @@ body{background:#000}
     <p>Чтобы узнать, напишите пожалуйста менеджеру))</p>
   </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
-  const tg=window.Telegram?.WebApp;
-  if(tg){
-    tg.ready();
-    tg.expand();
-  }
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
 
-  const baseURL = 'https://pomidor1225.github.io/';
+const home=document.getElementById('home');
+const bracelet=document.getElementById('bracelet');
+const delivery=document.getElementById('delivery');
+const hHearts=document.getElementById('h-hearts');
+const hTennis=document.getElementById('h-tennis');
+const hDelivery=document.getElementById('h-delivery');
+const bBack=document.getElementById('b-back');
+const bBuy=document.getElementById('b-buy');
+const bDelivery=document.getElementById('b-delivery');
+const dBack=document.getElementById('d-back');
+let last='home';
 
-  const home=document.getElementById('home');
-  const bracelet=document.getElementById('bracelet');
-  const delivery=document.getElementById('delivery');
-  const hHearts=document.getElementById('h-hearts');
-  const hTennis=document.getElementById('h-tennis');
-  const hDelivery=document.getElementById('h-delivery');
-  const bBack=document.getElementById('b-back');
-  const bBuy=document.getElementById('b-buy');
-  const bDelivery=document.getElementById('b-delivery');
-  const dBack=document.getElementById('d-back');
-  
-  let last='home';
-  let currentSlide=0;
-  let maxSlides=4;
-  let startX=0;
-  let isDragging=false;
+// Carousel
+const carousel=document.getElementById('carousel');
+const track=document.getElementById('carousel-track');
+let currentSlide=0;
+let maxSlides=4;
+let startX=0;
+let isDragging=false;
 
-  const carousel=document.getElementById('carousel');
-  const track=document.getElementById('carousel-track');
+function updateCarousel(){
+  track.style.transform=`translateX(-${currentSlide*100}%)`;
+  const dots=document.querySelectorAll('.dot');
+  dots.forEach((dot,i)=>{
+    dot.classList.toggle('active',i===currentSlide);
+  });
+}
 
-  function updateCarousel(){
-    track.style.transform=`translateX(-${currentSlide*100}%)`;
-    const dots=document.querySelectorAll('.dot');
-    dots.forEach((dot,i)=>{
-      dot.classList.toggle('active',i===currentSlide);
-    });
-  }
-
-  function loadCarousel(images,count){
-    track.innerHTML='';
-    maxSlides=count;
-    images.forEach(src=>{
-      const img=document.createElement('img');
-      img.src=baseURL+src;
-      img.alt='Bracelet';
-      track.appendChild(img);
-    });
-    
-    const dotsContainer=document.getElementById('dots');
-    dotsContainer.innerHTML='';
-    for(let i=0;i<count;i++){
-      const dot=document.createElement('div');
-      dot.className='dot';
-      if(i===0)dot.classList.add('active');
-      dot.onclick=()=>{
-        currentSlide=i;
-        updateCarousel();
-      };
-      dotsContainer.appendChild(dot);
-    }
-  }
-
-  carousel.addEventListener('touchstart',e=>{
-    startX=e.touches[0].clientX;
-    isDragging=true;
-  },{ passive: false });
-
-  carousel.addEventListener('touchmove',e=>{
-    if(!isDragging)return;
-    e.preventDefault();
-  },{ passive: false });
-
-  carousel.addEventListener('touchend',e=>{
-    if(!isDragging)return;
-    const endX=e.changedTouches[0].clientX;
-    const diff=startX-endX;
-    if(Math.abs(diff)>50){
-      if(diff>0&&currentSlide<maxSlides-1){
-        currentSlide++;
-      }else if(diff<0&&currentSlide>0){
-        currentSlide--;
-      }
+function loadCarousel(images,count){
+  track.innerHTML='';
+  maxSlides=count;
+  images.forEach(src=>{
+    const img=document.createElement('img');
+    img.src=src;
+    img.alt='Bracelet';
+    track.appendChild(img);
+  });
+  // Update dots
+  const dotsContainer=document.getElementById('dots');
+  dotsContainer.innerHTML='';
+  for(let i=0;i<count;i++){
+    const dot=document.createElement('div');
+    dot.className='dot';
+    if(i===0)dot.classList.add('active');
+    dot.onclick=()=>{
+      currentSlide=i;
       updateCarousel();
-    }
-    isDragging=false;
-  },{ passive: false });
-
-  function show(screen){
-    home.classList.remove('active');
-    bracelet.classList.remove('active');
-    delivery.classList.remove('active');
-    screen.classList.add('active');
+    };
+    dotsContainer.appendChild(dot);
   }
+}
 
-  hHearts.onclick=()=>{
-    bracelet.style.backgroundImage=`url(${baseURL}hearts_1.png)`;
-    loadCarousel(['hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg'],4);
-    currentSlide=0;
-    updateCarousel();
-    last='bracelet';
-    show(bracelet);
-  };
+carousel.addEventListener('touchstart',e=>{
+  startX=e.touches[0].clientX;
+  isDragging=true;
+},{ passive: false });
 
-  hTennis.onclick=()=>{
-    bracelet.style.backgroundImage=`url(${baseURL}tennis_1.png)`;
-    loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg'],3);
-    currentSlide=0;
-    updateCarousel();
-    last='bracelet';
-    show(bracelet);
-  };
+carousel.addEventListener('touchmove',e=>{
+  if(!isDragging)return;
+  e.preventDefault();
+  e.stopPropagation();
+},{ passive: false });
 
-  hDelivery.onclick=()=>{
-    last='home';
-    show(delivery);
-  };
-
-  bBuy.onclick=()=>{
-    if(tg){
-      tg.openTelegramLink("https://t.me/manager_glitch");
-    }else{
-      window.open("https://t.me/manager_glitch","_blank");
+carousel.addEventListener('touchend',e=>{
+  if(!isDragging)return;
+  const endX=e.changedTouches[0].clientX;
+  const diff=startX-endX;
+  if(Math.abs(diff)>50){
+    if(diff>0&&currentSlide<maxSlides-1){
+      currentSlide++;
+    }else if(diff<0&&currentSlide>0){
+      currentSlide--;
     }
-  };
+    updateCarousel();
+  }
+  isDragging=false;
+},{ passive: false });
 
-  bDelivery.onclick=()=>{
-    last='bracelet';
-    show(delivery);
-  };
+function show(screen){
+  home.classList.remove('active');
+  bracelet.classList.remove('active');
+  delivery.classList.remove('active');
+  screen.classList.add('active');
+}
 
-  bBack.onclick=()=>show(home);
+hHearts.onclick=()=>{
+  bracelet.style.backgroundImage='url(hearts_1.png)';
+  carousel.style.display='block';
+  document.getElementById('dots').style.display='flex';
+  loadCarousel(['hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg'],4);
+  currentSlide=0;
+  updateCarousel();
+  last='bracelet';
+  show(bracelet);
+};
 
-  dBack.onclick=()=>{
-    show(last==='bracelet'?bracelet:home);
-  };
+hTennis.onclick=()=>{
+  bracelet.style.backgroundImage='url(tennis_1.png)';
+  carousel.style.display='block';
+  document.getElementById('dots').style.display='flex';
+  loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg'],3);
+  currentSlide=0;
+  updateCarousel();
+  last='bracelet';
+  show(bracelet);
+};
+
+hDelivery.onclick=()=>{
+  last='home';
+  show(delivery);
+};
+
+bBuy.onclick=()=>{
+  tg ? tg.openTelegramLink("https://t.me/manager_glitch")
+     : window.open("https://t.me/manager_glitch","_blank");
+};
+
+bDelivery.onclick=()=>{
+  last='bracelet';
+  show(delivery);
+};
+
+bBack.onclick=()=>show(home);
+
+dBack.onclick=()=>{
+  show(last==='bracelet'?bracelet:home);
+};
 });
 </script>
 </body>
