@@ -7,12 +7,14 @@
 <style>
 html,body{margin:0;width:100%;height:100%}
 body{overflow:hidden;background:#000}
+
 /* ЭКРАНЫ */
 .screen{position:absolute;inset:0;display:none}
 .screen.active{display:block}
-/* ФОНЫ */
-#home{background:url("background.jpg") center/cover no-repeat #000}
-#bracelet{background:center/cover no-repeat #000}
+
+/* ФОНЫ - загружаются только когда экран активен */
+#home{background:#000}
+#bracelet{background:#000}
 #delivery{
   background:linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color:#fff;
@@ -20,11 +22,13 @@ body{overflow:hidden;background:#000}
   overflow-y:auto;
   padding:20px;
 }
+
 #delivery.active{
   display:flex;
   align-items:center;
   justify-content:center;
 }
+
 #delivery-text{
   background:rgba(0,0,0,0.7);
   padding:30px 25px;
@@ -33,25 +37,66 @@ body{overflow:hidden;background:#000}
   text-align:left;
   line-height:1.6;
 }
+
 #delivery-text h3{
   font-size:22px;
   margin:0 0 20px 0;
   text-align:center;
   font-weight:bold;
 }
+
 #delivery-text p{
   font-size:16px;
   margin:15px 0;
 }
+
 #delivery-text strong{
   font-size:18px;
   display:block;
   margin-top:20px;
   margin-bottom:8px;
 }
+
+/* КРАСИВАЯ КНОПКА НАЗАД */
+.back-button{
+  position:absolute;
+  top:15px;
+  left:15px;
+  width:40px;
+  height:40px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:100;
+  transition:all 0.3s ease;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+.back-button:active{
+  background:rgba(255,255,255,0.2);
+  transform:scale(0.95);
+}
+
+.back-button svg{
+  width:20px;
+  height:20px;
+  stroke:#fff;
+  stroke-width:2.5;
+  fill:none;
+}
+
+.back-button.hidden{
+  display:none;
+}
+
 /* ПРОЗРАЧНЫЕ ЗОНЫ */
 .zone{position:absolute;z-index:20;cursor:pointer}
 .zone:active{opacity:0.7}
+
 /* ГЛАВНЫЙ */
 #h-hearts{left:5%;top:52%;width:42%;height:10%}
 #h-tennis{right:5%;top:52%;width:42%;height:10%}
@@ -61,8 +106,8 @@ body{overflow:hidden;background:#000}
   width:65%;
   height:8%;
 }
+
 /* БРАСЛЕТ */
-#b-back{top:3%;left:3%;width:14%;height:8%}
 #b-buy{
   left:50%;transform:translateX(-50%);
   bottom:28%;
@@ -75,8 +120,7 @@ body{overflow:hidden;background:#000}
   width:70%;
   height:8%;
 }
-/* ДОСТАВКА */
-#d-back{top:3%;left:3%;width:14%;height:8%}
+
 /* КАРУСЕЛЬ */
 #carousel{
   position:absolute;
@@ -88,11 +132,13 @@ body{overflow:hidden;background:#000}
   border-radius:10px;
   touch-action:pan-y pinch-zoom;
 }
+
 #carousel-track{
   display:flex;
   height:100%;
   transition:transform 0.3s ease;
 }
+
 #carousel-track img{
   width:100%;
   height:100%;
@@ -101,6 +147,7 @@ body{overflow:hidden;background:#000}
   transform:scale(0.85);
   flex-shrink:0;
 }
+
 .carousel-dots{
   position:absolute;
   top:39%;
@@ -110,6 +157,7 @@ body{overflow:hidden;background:#000}
   gap:8px;
   z-index:30;
 }
+
 .dot{
   width:10px;
   height:10px;
@@ -118,28 +166,47 @@ body{overflow:hidden;background:#000}
   cursor:pointer;
   border:1px solid rgba(255,255,255,0.3);
 }
+
 .dot.active{
   background:rgba(255,255,255,1);
+}
+
+/* LOADER для плавной загрузки */
+.loading{
+  opacity:0.5;
+  transition:opacity 0.3s;
+}
+
+.loaded{
+  opacity:1;
 }
 </style>
 </head>
 <body>
-<div class="screen active" id="home">
+
+<!-- Кнопка назад -->
+<div class="back-button hidden" id="backBtn">
+  <svg viewBox="0 0 24 24">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</div>
+
+<div class="screen active loading" id="home">
   <div class="zone" id="h-hearts"></div>
   <div class="zone" id="h-tennis"></div>
   <div class="zone" id="h-delivery"></div>
 </div>
+
 <div class="screen" id="bracelet">
   <div id="carousel">
     <div id="carousel-track"></div>
   </div>
   <div class="carousel-dots" id="dots"></div>
-  <div class="zone" id="b-back"></div>
   <div class="zone" id="b-buy"></div>
   <div class="zone" id="b-delivery"></div>
 </div>
+
 <div class="screen" id="delivery">
-  <div class="zone" id="d-back"></div>
   <div id="delivery-text">
     <h3>Условия доставки:</h3>
     <strong>Жителям Беларуси:</strong>
@@ -154,6 +221,7 @@ body{overflow:hidden;background:#000}
     <p>Чтобы узнать, напишите пожалуйста менеджеру))</p>
   </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
 const tg=window.Telegram?.WebApp;
@@ -162,14 +230,27 @@ if(tg){tg.ready();tg.expand();}
 const home=document.getElementById('home');
 const bracelet=document.getElementById('bracelet');
 const delivery=document.getElementById('delivery');
+const backBtn=document.getElementById('backBtn');
 const hHearts=document.getElementById('h-hearts');
 const hTennis=document.getElementById('h-tennis');
 const hDelivery=document.getElementById('h-delivery');
-const bBack=document.getElementById('b-back');
 const bBuy=document.getElementById('b-buy');
 const bDelivery=document.getElementById('b-delivery');
-const dBack=document.getElementById('d-back');
+
 let last='home';
+let currentScreen='home';
+
+// Ленивая загрузка фона для главного экрана
+const bgImg=new Image();
+bgImg.onload=()=>{
+  home.style.backgroundImage='url(background.jpg)';
+  home.style.backgroundSize='cover';
+  home.style.backgroundPosition='center';
+  home.style.backgroundRepeat='no-repeat';
+  home.classList.remove('loading');
+  home.classList.add('loaded');
+};
+bgImg.src='background.jpg';
 
 // Carousel
 const carousel=document.getElementById('carousel');
@@ -194,9 +275,10 @@ function loadCarousel(images,count){
     const img=document.createElement('img');
     img.src=src;
     img.alt='Bracelet';
+    img.loading='lazy';
     track.appendChild(img);
   });
-  // Update dots
+  
   const dotsContainer=document.getElementById('dots');
   dotsContainer.innerHTML='';
   for(let i=0;i<count;i++){
@@ -237,38 +319,71 @@ carousel.addEventListener('touchend',e=>{
   isDragging=false;
 },{ passive: false });
 
-function show(screen){
+function show(screen,screenName){
   home.classList.remove('active');
   bracelet.classList.remove('active');
   delivery.classList.remove('active');
   screen.classList.add('active');
+  currentScreen=screenName;
+  
+  // Показываем кнопку назад везде кроме home
+  if(screenName==='home'){
+    backBtn.classList.add('hidden');
+  }else{
+    backBtn.classList.remove('hidden');
+  }
 }
 
+function goBack(){
+  if(currentScreen==='delivery'){
+    show(last==='bracelet'?bracelet:home, last);
+  }else if(currentScreen==='bracelet'){
+    show(home,'home');
+  }
+}
+
+// Кнопка назад
+backBtn.onclick=goBack;
+
 hHearts.onclick=()=>{
-  bracelet.style.backgroundImage='url(hearts_1.png)';
-  carousel.style.display='block';
-  document.getElementById('dots').style.display='flex';
+  // Ленивая загрузка фона
+  const img=new Image();
+  img.onload=()=>{
+    bracelet.style.backgroundImage='url(hearts_1.png)';
+    bracelet.style.backgroundSize='cover';
+    bracelet.style.backgroundPosition='center';
+    bracelet.style.backgroundRepeat='no-repeat';
+  };
+  img.src='hearts_1.png';
+  
   loadCarousel(['hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg'],4);
   currentSlide=0;
   updateCarousel();
   last='bracelet';
-  show(bracelet);
+  show(bracelet,'bracelet');
 };
 
 hTennis.onclick=()=>{
-  bracelet.style.backgroundImage='url(tennis_1.png)';
-  carousel.style.display='block';
-  document.getElementById('dots').style.display='flex';
+  // Ленивая загрузка фона
+  const img=new Image();
+  img.onload=()=>{
+    bracelet.style.backgroundImage='url(tennis_1.png)';
+    bracelet.style.backgroundSize='cover';
+    bracelet.style.backgroundPosition='center';
+    bracelet.style.backgroundRepeat='no-repeat';
+  };
+  img.src='tennis_1.png';
+  
   loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg'],3);
   currentSlide=0;
   updateCarousel();
   last='bracelet';
-  show(bracelet);
+  show(bracelet,'bracelet');
 };
 
 hDelivery.onclick=()=>{
   last='home';
-  show(delivery);
+  show(delivery,'delivery');
 };
 
 bBuy.onclick=()=>{
@@ -278,13 +393,7 @@ bBuy.onclick=()=>{
 
 bDelivery.onclick=()=>{
   last='bracelet';
-  show(delivery);
-};
-
-bBack.onclick=()=>show(home);
-
-dBack.onclick=()=>{
-  show(last==='bracelet'?bracelet:home);
+  show(delivery,'delivery');
 };
 });
 </script>
