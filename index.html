@@ -170,16 +170,6 @@ body{overflow:hidden;background:#000}
 .dot.active{
   background:rgba(255,255,255,1);
 }
-
-/* LOADER для плавной загрузки */
-.loading{
-  opacity:0.5;
-  transition:opacity 0.3s;
-}
-
-.loaded{
-  opacity:1;
-}
 </style>
 </head>
 <body>
@@ -191,7 +181,7 @@ body{overflow:hidden;background:#000}
   </svg>
 </div>
 
-<div class="screen active loading" id="home">
+<div class="screen active" id="home">
   <div class="zone" id="h-hearts"></div>
   <div class="zone" id="h-tennis"></div>
   <div class="zone" id="h-delivery"></div>
@@ -239,19 +229,26 @@ const bDelivery=document.getElementById('b-delivery');
 
 let last='home';
 let currentScreen='home';
-let currentBracelet=''; // Отслеживаем текущий браслет
+let currentBracelet='';
 
-// Ленивая загрузка фона для главного экрана
-const bgImg=new Image();
-bgImg.onload=()=>{
-  home.style.backgroundImage='url(background.jpg)';
-  home.style.backgroundSize='cover';
-  home.style.backgroundPosition='center';
-  home.style.backgroundRepeat='no-repeat';
-  home.classList.remove('loading');
-  home.classList.add('loaded');
-};
-bgImg.src='background.jpg';
+// ПРЕДЗАГРУЗКА ВСЕХ ИЗОБРАЖЕНИЙ ПРИ СТАРТЕ
+const preloadImages=['background.jpg','hearts_1.png','tennis_1.png','hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg','tennis_1.jpg','tennis_2.jpg','tennis_3.jpg','tennis_4.jpg'];
+const loadedImages={};
+
+preloadImages.forEach(src=>{
+  const img=new Image();
+  img.onload=()=>{
+    loadedImages[src]=true;
+    // Устанавливаем фон главного экрана сразу после загрузки
+    if(src==='background.jpg'){
+      home.style.backgroundImage='url(background.jpg)';
+      home.style.backgroundSize='cover';
+      home.style.backgroundPosition='center';
+      home.style.backgroundRepeat='no-repeat';
+    }
+  };
+  img.src=src;
+});
 
 // Carousel
 const carousel=document.getElementById('carousel');
@@ -276,7 +273,6 @@ function loadCarousel(images,count){
     const img=document.createElement('img');
     img.src=src;
     img.alt='Bracelet';
-    img.loading='lazy';
     track.appendChild(img);
   });
   
@@ -327,7 +323,6 @@ function show(screen,screenName){
   screen.classList.add('active');
   currentScreen=screenName;
   
-  // Показываем кнопку назад везде кроме home
   if(screenName==='home'){
     backBtn.classList.add('hidden');
   }else{
@@ -343,65 +338,38 @@ function goBack(){
   }
 }
 
-// Кнопка назад
 backBtn.onclick=goBack;
 
 hHearts.onclick=()=>{
-  currentBracelet='hearts'; // Устанавливаем текущий браслет
+  currentBracelet='hearts';
   
-  // Сначала очищаем фон
-  bracelet.style.backgroundImage='none';
+  // Устанавливаем фон сразу (уже предзагружен)
+  bracelet.style.backgroundImage='url(hearts_1.png)';
+  bracelet.style.backgroundSize='cover';
+  bracelet.style.backgroundPosition='center';
+  bracelet.style.backgroundRepeat='no-repeat';
   
-  // Загружаем карусель
   loadCarousel(['hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg'],4);
   currentSlide=0;
   updateCarousel();
-  
-  // Показываем экран
   last='bracelet';
   show(bracelet,'bracelet');
-  
-  // Потом загружаем фон с проверкой
-  const img=new Image();
-  img.onload=()=>{
-    // Проверяем, что пользователь все еще на hearts
-    if(currentBracelet==='hearts'){
-      bracelet.style.backgroundImage='url(hearts_1.png)';
-      bracelet.style.backgroundSize='cover';
-      bracelet.style.backgroundPosition='center';
-      bracelet.style.backgroundRepeat='no-repeat';
-    }
-  };
-  img.src='hearts_1.png';
 };
 
 hTennis.onclick=()=>{
-  currentBracelet='tennis'; // Устанавливаем текущий браслет
+  currentBracelet='tennis';
   
-  // Сначала очищаем фон
-  bracelet.style.backgroundImage='none';
+  // Устанавливаем фон сразу (уже предзагружен)
+  bracelet.style.backgroundImage='url(tennis_1.png)';
+  bracelet.style.backgroundSize='cover';
+  bracelet.style.backgroundPosition='center';
+  bracelet.style.backgroundRepeat='no-repeat';
   
-  // Загружаем карусель
   loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg','tennis_4.jpg'],4);
   currentSlide=0;
   updateCarousel();
-  
-  // Показываем экран
   last='bracelet';
   show(bracelet,'bracelet');
-  
-  // Потом загружаем фон с проверкой
-  const img=new Image();
-  img.onload=()=>{
-    // Проверяем, что пользователь все еще на tennis
-    if(currentBracelet==='tennis'){
-      bracelet.style.backgroundImage='url(tennis_1.png)';
-      bracelet.style.backgroundSize='cover';
-      bracelet.style.backgroundPosition='center';
-      bracelet.style.backgroundRepeat='no-repeat';
-    }
-  };
-  img.src='tennis_1.png';
 };
 
 hDelivery.onclick=()=>{
