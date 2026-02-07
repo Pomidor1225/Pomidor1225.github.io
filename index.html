@@ -12,7 +12,7 @@ body{overflow:hidden;background:#000}
 .screen{position:absolute;inset:0;display:none}
 .screen.active{display:block}
 
-/* ФОНЫ - загружаются только когда экран активен */
+/* ФОНЫ */
 #home{background:#000}
 #bracelet{background:#000}
 #delivery{
@@ -121,13 +121,13 @@ body{overflow:hidden;background:#000}
   height:8%;
 }
 
-/* КАРУСЕЛЬ - обрезаем низ и переносим точки выше */
+/* КАРУСЕЛЬ */
 #carousel{
   position:absolute;
   top:13%;
   left:15%;
   width:70%;
-  height:30%;
+  height:25%;
   overflow:hidden;
   border-radius:10px;
   touch-action:pan-y pinch-zoom;
@@ -143,14 +143,14 @@ body{overflow:hidden;background:#000}
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center top;
-  transform:scale(0.85) translateY(-8%);
+  object-position:center;
+  transform:scale(0.85);
   flex-shrink:0;
 }
 
 .carousel-dots{
   position:absolute;
-  top:45%;
+  top:39%;
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -374,7 +374,7 @@ hTennis.onclick=()=>{
   };
   img.src='tennis_1.png';
   
-  loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg'],3);
+  loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_3.jpg','tennis_4.jpg'],4);
   currentSlide=0;
   updateCarousel();
   last='bracelet';
