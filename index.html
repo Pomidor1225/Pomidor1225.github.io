@@ -98,11 +98,11 @@ body{overflow:hidden;background:#000}
 .zone:active{opacity:0.7}
 
 /* ГЛАВНЫЙ */
-#h-hearts{left:8%;top:54%;width:40%;height:8%}
-#h-tennis{right:8%;top:54%;width:40%;height:8%}
+#h-hearts{left:8%;top:49%;width:40%;height:9%}
+#h-tennis{right:8%;top:49%;width:40%;height:9%}
 #h-delivery{
   left:50%;transform:translateX(-50%);
-  bottom:24%;
+  bottom:31%;
   width:68%;
   height:7%;
 }
@@ -110,13 +110,13 @@ body{overflow:hidden;background:#000}
 /* БРАСЛЕТ */
 #b-buy{
   left:50%;transform:translateX(-50%);
-  bottom:24%;
+  bottom:31%;
   width:75%;
   height:7%;
 }
 #b-delivery{
   left:50%;transform:translateX(-50%);
-  bottom:14%;
+  bottom:20%;
   width:75%;
   height:7%;
 }
@@ -237,7 +237,6 @@ const preloadImages=['background.jpg','hearts_1.png','tennis_1.png','hurts_1.jpg
 preloadImages.forEach(src=>{
   const img=new Image();
   img.onload=()=>{
-    // Устанавливаем фон главного экрана сразу после загрузки
     if(src==='background.jpg'){
       home.style.backgroundImage='url(background.jpg)';
       home.style.backgroundSize='cover';
@@ -340,13 +339,10 @@ backBtn.onclick=goBack;
 
 hHearts.onclick=()=>{
   currentBracelet='hearts';
-  
-  // Устанавливаем фон сразу
   bracelet.style.backgroundImage='url(hearts_1.png)';
   bracelet.style.backgroundSize='cover';
   bracelet.style.backgroundPosition='center';
   bracelet.style.backgroundRepeat='no-repeat';
-  
   loadCarousel(['hurts_1.jpg','hurts_2.jpg','hurts_3.jpg','hurts_4.jpg'],4);
   currentSlide=0;
   updateCarousel();
@@ -356,13 +352,10 @@ hHearts.onclick=()=>{
 
 hTennis.onclick=()=>{
   currentBracelet='tennis';
-  
-  // Устанавливаем фон сразу
   bracelet.style.backgroundImage='url(tennis_1.png)';
   bracelet.style.backgroundSize='cover';
   bracelet.style.backgroundPosition='center';
   bracelet.style.backgroundRepeat='no-repeat';
-  
   loadCarousel(['tennis_1.jpg','tennis_2.jpg','tennis_4.jpg'],3);
   currentSlide=0;
   updateCarousel();
