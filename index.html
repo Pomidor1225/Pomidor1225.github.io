@@ -116,7 +116,7 @@ body{overflow:hidden;background:#000}
 }
 #b-delivery{
   left:50%;transform:translateX(-50%);
-  bottom:20%;
+  bottom:24%;
   width:75%;
   height:7%;
 }
@@ -148,9 +148,10 @@ body{overflow:hidden;background:#000}
   flex-shrink:0;
 }
 
+/* ТОЧКИ ВНУТРИ КАРУСЕЛИ СНИЗУ */
 .carousel-dots{
   position:absolute;
-  top:39%;
+  bottom:5%;
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -190,8 +191,8 @@ body{overflow:hidden;background:#000}
 <div class="screen" id="bracelet">
   <div id="carousel">
     <div id="carousel-track"></div>
+    <div class="carousel-dots" id="dots"></div>
   </div>
-  <div class="carousel-dots" id="dots"></div>
   <div class="zone" id="b-buy"></div>
   <div class="zone" id="b-delivery"></div>
 </div>
